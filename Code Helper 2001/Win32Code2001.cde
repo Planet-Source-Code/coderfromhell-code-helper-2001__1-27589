@@ -1,0 +1,596 @@
+// ***************************
+// * Darrens Win32 Code 2001 *
+// ***************************
+
+// This Plus sign to the right means mandatory    +
+
+// *****************************************************************************
+// *                             Editing this file                             *
+// *****************************************************************************
+// *                                                                           *
+// * This adds a new entry to the array:                                       *
+// * <Entry Number>=Number          e.g. 0                                     *    +
+// *                                                                           *
+// * This specifies the name of the entry:                                     *    +
+// * <Entry Name>=Name              e.g. Editing Win32Code2001.cde             *
+// *                                                                           *
+// * These are the keywords seperated by spaces for the search engine:         *
+// * <Search Tags>=Keyword1 Keyword2 Keyword3 Keyword4 	and so on...           *
+// *                                                                           *
+// * This is for adding help/information on the code:                          *
+// * <Info>=Text                                                               *
+// *                                                                           *
+// * This tells the program how many carries returns to add for the info:      *
+// * <Reti>=Number                   e.g. 6                                    *
+// *                                                                           *
+// * This is text associated with the entry above:                             *
+// * <Txt>=Text                                                                *
+// *                                                                           *
+// * This tells the program how many carries returns to add:                   *
+// * <Ret>=Number                   e.g. 6                                     *
+// *                                                                           *
+// * This tell the program what picture to show for the entry (bmp;gif;jpg):   *
+// * <Pic Name>=Path                e.g. Pic1.bmp (Stored in Pictures Folder)  *
+// *                                                                           *
+// *****************************************************************************
+
+//<Entry Number>=0
+//<Entry Name>=Welcome!
+//<txt>=Welcome to Code Helper 2001.
+//<Ret>=2
+//<txt>=Created by Darren Crook
+
+// ***********************
+// * S T A R T   H E R E *
+// ***********************
+
+
+<Entry Number>=1
+<Entry Name>=Keyboard Event
+<Search Tags>=keyboard keycode keyascii key keyevent keybd
+<Info>=This is used to simulate key pressing without touching the keyboard.
+<txt>=' Add This to the top of a module or put private at the front and add it to the top of a forms code.
+<ret>=1
+<txt>=Declare Sub keybd_event Lib "user32" (ByVal bVk As Byte, ByVal bScan As Byte, ByVal dwFlags As Long, ByVal dwExtraInfo As Long)
+<ret>=1
+<txt>=Const VK_LWIN = &H5B, KEYEVENTF_KEYUP = &H2, VK_APPS = &H5D
+<ret>=2
+<txt>=' Add the rest to a sub or function and Replace VbKeyReturn with any key you want.
+<ret>=3
+<txt>=' This simulates the key down procedure:
+<ret>=1
+<txt>=Call keybd_event(VbKeyReturn, 0, 0, 0)
+<ret>=2
+<txt>=' This simulates the key up procedure:
+<ret>=1
+<txt>=Call keybd_event(VbKeyReturn, 0, KEYEVENTF_KEYUP, 0)
+
+// *****************************
+
+<Entry Number>=2
+<Entry Name>=Mouse Events
+<Search Tags>=mouse pointapi pointer setcursorpos move
+<Info>=
+<txt>=' Put all this in a module:
+<ret>=1
+<txt>=Public Declare Sub mouse_event Lib "user32" (ByVal dwFlags As Long, ByVal dx As Long, ByVal dy As Long, ByVal cButtons As Long, ByVal dwExtraInfo As Long)
+<ret>=1
+<txt>=Public Declare Function SetCursorPos Lib "user32" (ByVal x As Long, ByVal y As Long) As Long
+<ret>=1
+<txt>=Public Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
+<ret>=2
+<txt>=    Public Const MOUSEEVENTF_LEFTDOWN = &H2
+<ret>=1
+<txt>=    Public Const MOUSEEVENTF_LEFTUP = &H4
+<ret>=1
+<txt>=    Public Const MOUSEEVENTF_MIDDLEDOWN = &H20
+<ret>=1
+<txt>=    Public Const MOUSEEVENTF_MIDDLEUP = &H40
+<ret>=1
+<txt>=    Public Const MOUSEEVENTF_RIGHTDOWN = &H8
+<ret>=1
+<txt>=    Public Const MOUSEEVENTF_RIGHTUP = &H10
+<ret>=1
+<txt>=    Public Const MOUSEEVENTF_MOVE = &H1
+<ret>=2
+<txt>=Public Type POINTAPI
+<ret>=1
+<txt>=    x As Long
+<ret>=1
+<txt>=    y As Long
+<ret>=1
+<txt>=End Type
+<ret>=3						
+<txt>=Public Sub LeftMouseClick()
+<ret>=1
+<txt>=    MouseDown 1
+<ret>=1
+<txt>=    MouseUp 1
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Public Sub MiddleMouseClick()
+<ret>=1
+<txt>=    MouseDown 2
+<ret>=1
+<txt>=    MouseUp 2
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Public Sub RightMouseClick()
+<ret>=1
+<txt>=    MouseDown 3
+<ret>=1
+<txt>=    MouseUp 3
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Public Sub MouseDown(Index as Integer)
+<ret>=1
+<txt>=    Select Case Index
+<ret>=1
+<txt>=        Case 1: mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
+<ret>=1
+<txt>=        Case 2: mouse_event MOUSEEVENTF_MIDDLEDOWN, 0, 0, 0, 0
+<ret>=1
+<txt>=        Case 2: mouse_event MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0
+<ret>=1
+<txt>=    End Select
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Public Sub MouseUp(Index as Integer)
+<ret>=1
+<txt>=    Select Case Index
+<ret>=1
+<txt>=        Case 1: mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
+<ret>=1
+<txt>=        Case 2: mouse_event MOUSEEVENTF_MIDDLEUP, 0, 0, 0, 0
+<ret>=1
+<txt>=        Case 2: mouse_event MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0
+<ret>=1
+<txt>=    End Select
+<ret>=1
+<txt>=End Sub
+<ret>=1
+<txt>=Public Sub MoveMouse(xMove As Long, yMove As Long)
+<ret>=1
+<txt>=    mouse_event MOUSEEVENTF_MOVE, xMove, yMove, 0, 0
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Public Sub SetMousePos(xPos As Long, yPos As Long)
+<ret>=1
+<txt>=    SetCursorPos xPos, yPos
+<ret>=1
+<txt>=End Sub
+
+// *****************************
+
+<Entry Number>=3
+<Entry Name>=Add Fonts
+<Search Tags>=font fonts
+<Info>=This will add all fonts on your computer to a list/combo box.
+<txt>=Public Sub AddFonts(Box As Object)
+<Ret>=1
+<txt>=    Dim i As long
+<ret>=2
+<txt>=    For i = 0 To Screen.FontCount - 1
+<ret>=1
+<txt>=        Box.AddItem Screen.Fonts(i)
+<ret>=1
+<txt>=    Next i
+<ret>=1
+<txt>=End Sub
+
+// *****************************
+
+<Entry Number>=4
+<Entry Name>=Play Sound
+<Search Tags>=play sound sounds sndplay wav .wav
+<Info>=This is to play a sound for example when you click a button.
+<txt>=' This API function goes in a module:
+<ret>=1
+<txt>=Public Declare Function sndPlaySound Lib "winmm.dll" Alias "sndPlaySoundA" (ByVal lpszSoundName As String, ByVal uFlags As Long) As Long
+<ret>=2
+<txt>=' Then To call the API function:
+<ret>=1
+<txt>=Public Sub Play(FileName as String)
+<ret>=1
+<txt>=    Variable = sndPlaySound(FileName, 1)
+<ret>=1
+<txt>=End Sub
+<ret>=4
+<txt>=e.g. = Play "C:\Sounds\sound.wav"
+
+<Entry Number>=5
+<Entry Name>=Make Directory Structure
+<Search Tags>=dir folder directory make create
+<Info>=This will create the directory structure that you send in if it doesn't already exist.
+<Reti>=2
+<Info>=e.g. MakeSureDirExists "C:\My Documents\My New Folder\Another New Folder\And another"
+<txt>=Public Function MakeSureDirExists(TheDirectory As String) As Boolean
+<ret>=1
+<txt>=    Dim sDirTest As String
+<ret>=1
+<txt>=    Dim i As Long
+<ret>=1
+<txt>=    Dim sPath As String
+<ret>=1
+<txt>=    Dim iCounter As Integer
+<ret>=1
+<txt>=    Dim sTempDir As String
+<ret>=2
+<txt>=    sPath = TheDirectory
+<ret>=2
+<txt>=    If Right(sPath, 1) <> "\" Then
+<ret>=1
+<txt>=        sPath = sPath & "\"
+<ret>=1
+<txt>=    End If
+<ret>=2
+<txt>=    iCounter = 1
+<ret>=2
+<txt>=    Do Until i = Len(sPath)
+<ret>=1
+<txt>=        iCounter = InStr(iCounter, sPath, "\")
+<ret>=1
+<txt>=        If iCounter <> 0 Then
+<ret>=1
+<txt>=            sTempDir = Left(sPath, iCounter)
+<ret>=1
+<txt>=            sDirTest = Dir(sTempDir, vbDirectory)
+<ret>=1
+<txt>=            If sDirTest = "" And Right(sTempDir, 2) <> ":\" Then
+<ret>=1
+<txt>=                MkDir sTempDir
+<ret>=1
+<txt>=            End If
+<ret>=1
+<txt>=        End If
+<ret>=2
+<txt>=        iCounter = iCounter + 1
+<ret>=1
+<txt>=        i = i + 1
+<ret>=1
+<txt>=    Loop
+<ret>=1
+<txt>=    MakeSureDirExists = True
+<ret>=1
+<txt>=End Function
+
+//*******************************
+
+<Entry Number>=7
+<Entry Name>=Record Sound
+<Info>=These Subs will help you record sound through your microphone.
+<Search Tags>=record sound wav microphone mcisendstring winmm
+<txt>=Private Declare Function mciSendString Lib "winmm.dll" Alias "mciSendStringA" (ByVal lpstrCommand As String, ByVal lpstrReturnString As Any, ByVal uReturnLength As Long, ByVal hwndCallback As Long) As Long
+<ret>=3
+<txt>=Private Sub StartRecording()
+<ret>=1
+<txt>=    i = mciSendString("open new Type waveaudio Alias capture", 0&, 0, 0)
+<ret>=1
+<txt>=    i = mciSendString("set capture bitspersample 8", 0&, 0, 0)
+<ret>=1
+<txt>=    i = mciSendString("set capture samplespersec 11025", 0&, 0, 0)
+<ret>=1
+<txt>=    i = mciSendString("set capture channels 1", 0&, 0, 0)
+<ret>=1
+<txt>=    i = mciSendString("record capture", 0&, 0, 0)
+<ret>=1
+<txt>=    'bitspersample can be:
+<ret>=1
+<txt>=    '8
+<ret>=1
+<txt>=    '16
+<ret>=1
+<txt>=    '
+<ret>=1
+<txt>=    'samplespersec can be:
+<ret>=1
+<txt>=    '11025
+<ret>=1
+<txt>=    '22050
+<ret>=1
+<txt>=    '44100
+<ret>=1
+<txt>=    '
+<ret>=1
+<txt>=    'channels can be:
+<ret>=1
+<txt>=    ' 1 = mono
+<ret>=1
+<txt>=    ' 2 = stereo
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Private Sub StopRecording()
+<ret>=1
+<txt>=    i = mciSendString("stop capture", 0&, 0, 0)
+<ret>=1
+<txt>=    i = mciSendString("save capture c:\NewWave.wav", 0&, 0, 0)
+<ret>=1
+<txt>=    i = mciSendString("close capture", 0&, 0, 0)
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Private Sub Play()
+<ret>=1
+<txt>=    i = mciSendString("play capture from 0", 0&, 0, 0)
+<ret>=1
+<txt>=End Sub
+<ret>=2
+<txt>=Private Sub FinishRecording(Cancel As Integer)
+<ret>=1
+<txt>=    i = mciSendString("close capture", 0&, 0, 0)
+<ret>=1
+<txt>=End Sub
+
+// ***************************************
+
+<Entry Number>=8
+<Entry Name>=Encode/Decode a String
+<Info>=This code will let you encode a string so that it is not understandable.
+<Reti>=2
+<Info>=This code will also let you decode a string so that it is understandable again.
+<Search Tags>=encode decode string
+<txt>='Put these functions ito a module:
+<ret>=2
+<txt>=Private Function FindOppAsc(Value As Integer) As Integer
+<ret>=1
+<txt>=    If Value <> 128 Then
+<ret>=1
+<txt>=        FindOppAsc = 255 - Value
+<ret>=1
+<txt>=    Else
+<ret>=1
+<txt>=        FindOppAsc = Value
+<ret>=1
+<txt>=    End If
+<ret>=1
+<txt>=End Function
+<ret>=2
+<txt>=Function Convert(cString) As String
+<ret>=1
+<txt>=cString = CStr(cString)
+<ret>=1
+<txt>=    For cCode = 1 To Len(cString)
+<ret>=1
+<txt>=        'If you want a status bar then you will want this code:
+<ret>=1
+<txt>=            'Conv = Conv + (100 / Len(cString)) '<<<Dont want the status bar?, then remove this code
+<ret>=1
+<txt>=            'Image1.Width = (Picture1.Width / Len(cString)) * Conv * (Len(cString) / 100) '<<<Dont want the status bar?, then remove this code
+<ret>=1
+<txt>=        'End If
+<ret>=1
+<txt>=        Convert = Convert & Chr(FindOppAsc(Asc(Mid(cString, CInt(cCode), 1))))
+<ret>=1
+<txt>=    Next cCode
+<ret>=1
+<txt>=End Function
+
+// ***********************************
+
+<Entry Number>=9
+<Entry Name>=Form Stay On Top
+<Info>=This will tell the form to stay ontop of every other window (Like Winamp)
+<Search Tags>=stay top move above
+<txt>=Public Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+<ret>=1
+<txt>=    Public Const HWND_TOPMOST = -1
+<ret>=1
+<txt>=    Public Const HWND_NOTOPMOST = -2
+<ret>=2
+<txt>=Public Enum Blnk
+<ret>=1
+<txt>=    B_Left = 0
+<ret>=1
+<txt>=    B_Right = 1
+<ret>=1
+<txt>=    B_Both = 2
+<ret>=1
+<txt>=End Enum
+<ret>=3
+<txt>=Sub StayOnTop(vForm As Form, onTop As Boolean)
+<ret>=1
+<txt>=    Dim Width As Single, Height As Single, Left As Single, Top As Single
+<ret>=1
+<txt>=        Width = vForm.Width
+<ret>=1
+<txt>=        Height = vForm.Height
+<ret>=1
+<txt>=        Left = vForm.Left
+<ret>=1
+<txt>=        Top = vForm.Top
+<ret>=1
+<txt>=    If onTop = True Then
+<ret>=1
+<txt>=        SetWindowPos vForm.hwnd, HWND_TOPMOST, Left / Screen.TwipsPerPixelX, Top / Screen.TwipsPerPixelY, Left / Screen.TwipsPerPixelX, Top + Height / Screen.TwipsPerPixelY, &H1 'Or &H2
+<ret>=1
+<txt>=    Else
+<ret>=1
+<txt>=        SetWindowPos vForm.hwnd, HWND_NOTOPMOST, Left / Screen.TwipsPerPixelX, Top / Screen.TwipsPerPixelY, Left / Screen.TwipsPerPixelX, Top + Height / Screen.TwipsPerPixelY, &H1 'Or &H2
+<ret>=1
+<txt>=    End If
+<ret>=1
+<txt>=End Sub
+
+// ******************************************
+
+<Entry Number>=10
+<Entry Name>=Browse For Folder
+<Info>=This will bring up the windows browse for folder dialog. and return a string
+<Search Tags>=browse folder path get
+<Pic Name>=Browse.bmp
+<txt>='Put this in a module
+<ret>=2
+<txt>=Declare Function lstrcat Lib "Kernel32" Alias "lstrcatA" (ByVal lpString1 As String, ByVal lpString2 As String) As Long
+<ret>=1
+<txt>=Declare Function SHBrowseForFolder Lib "shell32" (lpbi As Browse) As Long
+<ret>=1
+<txt>=Declare Function SHGetPathFromIDList Lib "shell32" (ByVal pidList As Long, ByVal lpBuffer As String) As Long
+<ret>=2
+<ret>=1
+<txt>=Type Browse
+<ret>=1
+<txt>=    hWndOwner      As Long
+<ret>=1
+<txt>=    pidlRoot       As Long
+<ret>=1
+<txt>=    pszDisplayName As Long
+<ret>=1
+<txt>=    lpszTitle      As Long
+<ret>=1
+<txt>=    ulFlags        As Long
+<ret>=1
+<txt>=    lpfnCallback   As Long
+<ret>=1
+<txt>=    lParam         As Long
+<ret>=1
+<txt>=    iImage         As Long
+<ret>=1
+<txt>=End Type
+<ret>=2
+<txt>=Public Const BIF_BROWSEFORCOMPUTER = &H1000
+<ret>=1
+<txt>=Public Const BIF_BROWSEFORPRINTER = &H2000
+<ret>=1
+<txt>=Public Const BIF_BROWSEINCLUDEFILES = &H4000
+<ret>=1
+<txt>=Public Const BIF_BROWSEINCLUDEURLS = &H80
+<ret>=1
+<txt>=Public Const BIF_DONTGOBELOWDOMAIN = &H2
+<ret>=1
+<txt>=Public Const BIF_EDITBOX = &H10
+<ret>=1
+<txt>=Public Const BIF_NEWDIALOGSTYLE = &H40
+<ret>=1
+<txt>=Public Const BIF_RETURNFSANCESTORS = &H8
+<ret>=1
+<txt>=Public Const BIF_RETURNONLYFSDIRS = &H1
+<ret>=1
+<txt>=Public Const BIF_SHAREABLE = &H8000
+<ret>=1
+<txt>=Public Const BIF_STATUSTEXT = &H4
+<ret>=1
+<txt>=Public Const BIF_USENEWUI = &H40
+<ret>=1
+<txt>=Public Const BIF_VALIDATE = &H20
+<ret>=2
+<txt>=Public Const MAX_PATH = 260
+<ret>=3
+<txt>=Public Function BrowseFolder(TForm As Object, TTitle As String) As String
+<ret>=1
+<txt>=Dim IDList As Long, Path$ ', Title$
+<ret>=1
+<txt>=Dim BrInfo As Browse
+<ret>=2
+<txt>=    With BrInfo
+<ret>=1
+<txt>=        .hWndOwner = TForm.hWnd
+<ret>=1
+<txt>=        .lpszTitle = lstrcat(TTitle, "")
+<ret>=1
+<txt>=        .ulFlags = BIF_RETURNONLYFSDIRS + BIF_DONTGOBELOWDOMAIN + BIF_NEWDIALOGSTYLE
+<ret>=1
+<txt>=    End With
+<ret>=2
+<txt>=    IDList = SHBrowseForFolder(BrInfo)
+<ret>=2
+<txt>=    If (IDList) Then
+<ret>=1
+<txt>=        Path = Space(MAX_PATH)
+<ret>=1
+<txt>=        SHGetPathFromIDList IDList, Path
+<ret>=1
+<txt>=        Path = Left(Path, InStr(Path, vbNullChar) - 1)
+<ret>=1
+<txt>=        'MsgBox Path, vbInformation + vbOKOnly, "BrowseForFolder"
+<ret>=1
+<txt>=        BrowseFolder = Path
+<ret>=1
+<txt>=    End If
+<ret>=1
+<txt>=End Function
+
+
+// ***************************************
+
+<Entry Number>=11
+<Entry Name>=Send File To Recycle Bin
+<Info>=This function lets you send a file to the recycle bin.
+<reti>=3
+<Info>=The function's ParamArray argument allows you to pass it any number of file names:
+<reti>=2
+<Info>=To Delete a single file:
+<reti>=1
+<Info>=    lResult = ShellDelete("DELETE.ME")
+<reti>=2
+<Info>=' Delete several files
+<reti>=1
+<Info>=lResult = ShellDelete("DELETE.ME", "LOVE_LTR.DOC", "COVERUP.TXT")
+<Search Tags>=bin recycle trash can
+<txt>=Private Type SHFILEOPSTRUCT
+<ret>=1
+<txt>=    hWnd As Long
+<ret>=1
+<txt>=    wFunc As Long
+<ret>=1
+<txt>=    pFrom As String
+<ret>=1
+<txt>=    pTo As String
+<ret>=1
+<txt>=    fFlags As Integer
+<ret>=1
+<txt>=    fAborted As Boolean
+<ret>=1
+<txt>=    hNameMaps As Long
+<ret>=1
+<txt>=    sProgress As String
+<ret>=1
+<txt>=End Type
+<ret>=2
+<txt>=    Private Const FO_DELETE = &H3
+<ret>=1
+<txt>=    Private Const FOF_ALLOWUNDO = &H40
+<ret>=2
+<txt>=Private Declare Function SHFileOperation Lib "shell32.dll" Alias "SHFileOperationA" (lpFileOp As SHFILEOPSTRUCT) As Long
+<ret>=3
+<txt>=Public Function ShellDelete(ParamArray vntFileName() As Variant) As Long
+<ret>=1
+<txt>=    Dim I As Integer
+<ret>=1
+<txt>=    Dim sFileNames As String
+<ret>=1
+<txt>=    Dim SHFileOp As SHFILEOPSTRUCT
+<ret>=2
+<txt>=    For I = LBound(vntFileName) To UBound(vntFileName)
+<ret>=1
+<txt>=        sFileNames = sFileNames & vntFileName(I) & vbNullChar
+<ret>=1
+<txt>=    Next
+<ret>=2
+<txt>=    sFileNames = sFileNames & vbNullChar
+<ret>=2
+<txt>=    With SHFileOp
+<ret>=1
+<txt>=        .wFunc = FO_DELETE
+<ret>=1
+<txt>=        .pFrom = sFileNames
+<ret>=1
+<txt>=        .fFlags = FOF_ALLOWUNDO
+<ret>=1
+<txt>=    End With
+<ret>=1
+<txt>=    ShellDelete = SHFileOperation(SHFileOp)
+<ret>=1
+<txt>=End Function
+
+// ****************************************
+
+<Entry Number>=45
+<Entry Name>=Test
+<Info>
+<Search Tags>
